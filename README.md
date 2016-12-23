@@ -5,11 +5,11 @@ Simple proof of concept for integrating angular frontend application into Java E
 ## Development Mode
 
 For development purposes run the application on a compatible server (e.g. JBoss WildFly 10.1)
-and in garlic-frontend directory start a fronend server with proxy configuration: 
+and in garlic-frontend directory start a frontend server with proxy configuration: 
 `ng serve -pc proxy.conf.json`. 
  
 ## Final Build
-To build a production war file run `mvn clean verify`.
+To build a production war file run `mvn clean verify -Pfrontend`.
 
 ## Important
 For real projects you would have to:
