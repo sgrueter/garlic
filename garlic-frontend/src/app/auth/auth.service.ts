@@ -4,7 +4,7 @@ import 'rxjs/add/operator/map';
 import { tokenNotExpired } from 'angular2-jwt';
 
 const LS_KEY = 'id_token';
-const LOGIN_URL = '/garlic/rest/auth/login';
+const ENDPOINT = '/garlic/rest/auth/login';
 
 export class Credentials {
     username: string;
@@ -18,7 +18,7 @@ export class AuthService {
 
     login( credentials: Credentials ) {
         this.http
-            .post( LOGIN_URL, credentials )
+            .post( ENDPOINT, credentials )
             .map( res => res.json() )
             .subscribe( this.handleData, this.handleError );
     }
@@ -33,12 +33,12 @@ export class AuthService {
 
     private handleData( data ) {
         let token = data[LS_KEY];
-        if (token) {
+        if ( token ) {
             localStorage.setItem( LS_KEY, token );
         }
     }
 
     private handleError( error ) {
-        console.log( error );
+        console.error( error );
     }
 }

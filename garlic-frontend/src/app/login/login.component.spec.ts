@@ -7,13 +7,13 @@ import { AuthService, Credentials } from '../auth/auth.service';
 import { LoginComponent } from './login.component';
 
 class AuthServiceStub {
-    login(credentials: Credentials) {
+    login( credentials: Credentials ) {
         return true;
     }
     loggedIn() {
         return true;
     }
-    logout() {}
+    logout() { }
 }
 
 describe( 'LoginComponent', () => {
@@ -21,10 +21,10 @@ describe( 'LoginComponent', () => {
     let fixture: ComponentFixture<LoginComponent>;
     let authServiceStub = new AuthServiceStub();
     beforeEach( async(() => {
-        TestBed.configureTestingModule({
+        TestBed.configureTestingModule( {
             imports: [FormsModule],
             declarations: [LoginComponent],
-            providers: [{provide: AuthService, useValue: authServiceStub}]
+            providers: [{ provide: AuthService, useValue: authServiceStub }]
         }).compileComponents();
     }) );
 
@@ -37,12 +37,12 @@ describe( 'LoginComponent', () => {
     it( 'should create', () => {
         expect( component ).toBeTruthy();
     });
-    
+
     it( 'should pass credentials to auth service', () => {
-        const credentials = {username: 'foo', password: 'bar'};
-        const spy = spyOn(authServiceStub, 'login');
-        component.onLogin(credentials);
-        expect(spy.calls.count()).toBe(1);
-        expect(spy.calls.first().args[0]).toBe(credentials);
+        const credentials = { username: 'foo', password: 'bar' };
+        const spy = spyOn( authServiceStub, 'login' );
+        component.onLogin( credentials );
+        expect( spy.calls.count() ).toBe( 1 );
+        expect( spy.calls.first().args[0] ).toBe( credentials );
     });
 });

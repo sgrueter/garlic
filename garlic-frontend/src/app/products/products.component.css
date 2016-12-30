@@ -1,0 +1,8 @@
+td, th {
+	padding-left: 0;
+	padding-right: 1em;
+	text-align: left;
+}
+.number {
+	text-align: right;
+}

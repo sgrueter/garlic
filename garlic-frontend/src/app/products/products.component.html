@@ -1,0 +1,14 @@
+<h2>Products</h2>
+<table>
+  <tr>
+    <th>Name:</th>
+    <th class="number">Price:</th>
+    <th class="number">Quantity:</th>
+  </tr>
+  <tr *ngFor="let product of products">
+    <td>{{product.name}}</td>
+    <td class="number">{{product.price | currency:'USD':true:'1.2-2'}}</td>
+    <td class="number">{{product.quantity}}</td>
+  </tr>
+</table>
+

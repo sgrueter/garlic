@@ -41,7 +41,7 @@ describe( 'AuthGuardService', () => {
         const routerSpy = spyOn( routerStub, 'navigateByUrl' );
         expect( service.canActivate() ).toBe( false );
         expect( routerSpy.calls.count() ).toBe( 1 );
-        expect( routerSpy.calls.first().args[0] ).toBe( '/unauthorized' );
+        expect( routerSpy.calls.first().args[0] ).toBe( '/login' );
     }) );
 
 });

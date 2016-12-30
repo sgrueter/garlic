@@ -1,4 +1,4 @@
-package com.github.sgrueter.garlic.rest;
+package com.github.sgrueter.garlic.auth;
 
 import javax.enterprise.context.ApplicationScoped;
 

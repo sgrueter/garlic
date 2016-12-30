@@ -1,6 +1,16 @@
+<h2>Login</h2>
 <form (ngSubmit)="onLogin(f.value)" #f="ngForm" *ngIf="!auth.loggedIn()">
-	<input type="text" name="username" placeholder="username" [(ngModel)]="credentials.username">
+	<input type="text" name="username" placeholder="username" (ngModel)="credentials.username">
 	<input type="password" name="password" placeholder="password" [ngModel]="credentials.password">
 	<button type="submit">Submit</button>
 </form>
-<h2 *ngIf="auth.loggedIn()">Welcome {{credentials.username}}</h2>
+<div *ngIf="!auth.loggedIn()">
+	<p>Your are not logged in yet.</p>
+	<p>Navigation to <a routerLink="/products">products</a> will be prevented by AuthGuardService.</p>
+	<p>And you can not access <a href="/garlic/rest/products/all">products resource</a> directly.</p>
+</div>
+<div *ngIf="auth.loggedIn()">
+	<p>Your are now logged in.</p>
+	<p>Navigation to <a routerLink="/products">products</a> is now possible.</p>
+	<p>But you can still not access <a href="/garlic/rest/products/all">products resource</a> directly.</p>
+</div>

@@ -1,4 +1,4 @@
-package com.github.sgrueter.garlic.rest;
+package com.github.sgrueter.garlic.auth;
 
 public class Credentials {
 
