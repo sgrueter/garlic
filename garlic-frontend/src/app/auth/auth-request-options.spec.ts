@@ -9,19 +9,21 @@ const HEADER_KEY = 'Authorization';
 
 describe( 'AuthRequestOptions', () => {
 
+    let cut: AuthRequestOptions;
     beforeEach(() => {
+        cut = new AuthRequestOptions();
         localStorage.removeItem( LS_KEY );
     });
 
     it( 'should add authorization header if token stored', () => {
         localStorage.setItem( LS_KEY, TOKEN );
-        let cut = new AuthRequestOptions();
+        let options = cut.merge();
         let expectedHeaderValue = `Bearer ${TOKEN}`;
-        expect( cut.headers.get( HEADER_KEY ) ).toBe( expectedHeaderValue );
+        expect( options.headers.get( HEADER_KEY ) ).toBe( expectedHeaderValue );
     });
 
     it( 'should not add authorization header if no token stored', () => {
-        let cut = new AuthRequestOptions();
-        expect( cut.headers.get( HEADER_KEY ) ).toBeNull();
+        let options = cut.merge();
+        expect( options.headers.get( HEADER_KEY ) ).toBeNull();
     });
 });
