@@ -1,11 +1,15 @@
 package com.github.sgrueter.garlic.auth;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.Date;
 import java.util.Properties;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+import org.slf4j.Logger;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -18,29 +22,44 @@ public class TokenService {
 	private static final String PROPERTIES = "jwt.properties";
 	private static final String SECRET_PROPERTY = "secret";
 	private static final String ISSUER_PROPERTY = "issuer";
-	private final String secret;
-	private final String issuer;
+	private static final String VALIDITY_PROPERTY = "validity";
+	private Algorithm algorithm;
+	private String issuer;
+	private JWTVerifier verifier;
+	private long validityInSeconds;
+	
+	@Inject
+	private Logger logger;
 	
 	public TokenService() {
 		Properties properties = new Properties();
 		try (InputStream input = getClass().getClassLoader().getResourceAsStream(PROPERTIES)) {
 			properties.load(input);
-		} catch (IOException e) {
-			e.printStackTrace();
+			String secret = properties.getProperty(SECRET_PROPERTY);
+			algorithm = Algorithm.HMAC256(secret);
+			issuer = properties.getProperty(ISSUER_PROPERTY);
+			verifier = JWT.require(algorithm).withIssuer(issuer).build();
+			validityInSeconds = Long.parseLong(properties.getProperty(VALIDITY_PROPERTY));
+		} catch (Exception e) {
+			logger.error("Initialization failed", e);
 		}
-		secret = properties.getProperty(SECRET_PROPERTY);
-		issuer = properties.getProperty(ISSUER_PROPERTY);		
 	}
 
 
 	public String createToken() {
-		Algorithm algorithm = createAlgorithm();
-		return JWT.create().withIssuer(issuer).sign(algorithm);
+		ZoneOffset zone = ZoneOffset.UTC;
+		LocalDateTime startTime = LocalDateTime.now(zone);
+		LocalDateTime endTime = startTime.plusSeconds(validityInSeconds);
+		Date issuedAt = Date.from(startTime.toInstant(zone));
+		Date expiresAt = Date.from(endTime.toInstant(zone));
+		return JWT.create()
+				.withIssuer(issuer)
+				.withIssuedAt(issuedAt)
+				.withExpiresAt(expiresAt)
+				.sign(algorithm);
 	}
 
 	public boolean verifyToken(String token) {
-		Algorithm algorithm = createAlgorithm();
-		JWTVerifier verifier = JWT.require(algorithm).withIssuer(issuer).build();
 		try {
 			verifier.verify(token);
 			return true;
@@ -49,11 +68,4 @@ public class TokenService {
 		}
 	}
 	
-	private Algorithm createAlgorithm() {
-		try {
-			return Algorithm.HMAC256(secret);
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException(e);
-		}
-	}
 }
