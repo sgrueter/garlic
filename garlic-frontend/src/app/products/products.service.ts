@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AuthHttp } from 'angular2-jwt';
+import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
 
 const ENDPOINT = '/garlic/rest/products/all';
 
@@ -13,10 +14,10 @@ export class Product {
 @Injectable()
 export class ProductsService {
 
-    constructor( private authHttp: AuthHttp ) { }
+    constructor( private http: Http ) { }
 
     getAllProducts(): Observable<Product[]> {
-        return this.authHttp.get( ENDPOINT )
+        return this.http.get( ENDPOINT )
             .map( res => res.json() );
     }
 
