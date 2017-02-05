@@ -19,7 +19,7 @@ class AuthServiceStub {
 describe( 'LoginComponent', () => {
     let component: LoginComponent;
     let fixture: ComponentFixture<LoginComponent>;
-    let authServiceStub = new AuthServiceStub();
+    const authServiceStub = new AuthServiceStub();
     beforeEach( async(() => {
         TestBed.configureTestingModule( {
             imports: [FormsModule],

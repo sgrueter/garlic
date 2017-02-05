@@ -17,13 +17,13 @@ describe( 'AuthRequestOptions', () => {
 
     it( 'should add authorization header if token stored', () => {
         localStorage.setItem( LS_KEY, TOKEN );
-        let options = cut.merge();
-        let expectedHeaderValue = `Bearer ${TOKEN}`;
+        const options = cut.merge();
+        const expectedHeaderValue = `Bearer ${TOKEN}`;
         expect( options.headers.get( HEADER_KEY ) ).toBe( expectedHeaderValue );
     });
 
     it( 'should not add authorization header if no token stored', () => {
-        let options = cut.merge();
+        const options = cut.merge();
         expect( options.headers.get( HEADER_KEY ) ).toBeNull();
     });
 });

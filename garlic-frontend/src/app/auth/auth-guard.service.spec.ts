@@ -16,8 +16,8 @@ class RouterStub {
 }
 
 describe( 'AuthGuardService', () => {
-    let authServiceStub = new AuthServiceStub();
-    let routerStub = new RouterStub();
+    const authServiceStub = new AuthServiceStub();
+    const routerStub = new RouterStub();
     beforeEach(() => {
         TestBed.configureTestingModule( {
             providers: [

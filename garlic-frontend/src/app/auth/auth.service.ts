@@ -32,7 +32,7 @@ export class AuthService {
     }
 
     private handleData( data ) {
-        let token = data[LS_KEY];
+        const token = data[LS_KEY];
         if ( token ) {
             localStorage.setItem( LS_KEY, token );
         }

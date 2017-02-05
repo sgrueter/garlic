@@ -40,7 +40,7 @@ describe( 'AuthService', () => {
                 expect( connection.request.method ).toBe( RequestMethod.Post );
                 expect( connection.request.url ).toBe( ENDPOINT );
                 expect( connection.request.json() ).toEqual( CREDENTIALS );
-                let responseOptions = new ResponseOptions( { body: '{}' });
+                const responseOptions = new ResponseOptions( { body: '{}' });
                 connection.mockRespond( new Response( responseOptions ) );
             });
             service.login( CREDENTIALS );
@@ -50,12 +50,12 @@ describe( 'AuthService', () => {
         [AuthService, MockBackend],
         fakeAsync(( service: AuthService, backend: MockBackend ) => {
             backend.connections.subscribe(( connection: MockConnection ) => {
-                let mockResponseBody = `{"${LS_KEY}":"${TOKEN}"}`;
-                let responseOptions = new ResponseOptions( { body: mockResponseBody });
+                const mockResponseBody = `{"${LS_KEY}":"${TOKEN}"}`;
+                const responseOptions = new ResponseOptions( { body: mockResponseBody });
                 connection.mockRespond( new Response( responseOptions ) );
             });
             service.login( CREDENTIALS );
-            let actual = localStorage.getItem( LS_KEY );
+            const actual = localStorage.getItem( LS_KEY );
             expect( actual ).toBe( TOKEN );
         }) ) );
 
@@ -72,12 +72,12 @@ describe( 'AuthService', () => {
     it( 'logout() should remove token', inject( [AuthService], ( service: AuthService ) => {
         localStorage.setItem( LS_KEY, TOKEN );
         service.logout();
-        let actual = localStorage.getItem( LS_KEY );
+        const actual = localStorage.getItem( LS_KEY );
         expect( actual ).toBeNull();
     }) );
 
     it( 'loggedIn() should return false without stored token', inject( [AuthService], ( service: AuthService ) => {
-        let actual = service.loggedIn();
+        const actual = service.loggedIn();
         expect( actual ).toBe( false );
     }) );
 });
